@@ -1,1 +1,15 @@
-.ld-rl { background-image:url(page_refresh.png); }
+.ld-rl { background-image:url(page_refresh.png);}
+.ld-icon-chs{background:url(database_refresh.png) no-repeat;}
+.ld-lsts-r{background:url(r.png) no-repeat;}
+.ld-lsts-g{background:url(g.png) no-repeat;}
+.ld-lsts-b{background:url(b.png) no-repeat;}
+.ld-lsts-e{background:url(e.png) no-repeat;}
+.ld-lsts-k{background:url(k.png) no-repeat;}
+.ld-lsts-f{background:url(f.png) no-repeat;}
+
+.rotate{
+transition-duration: 0.8s;
+transition-property: transform;
+overflow:hidden;
+}
+.rotate:hover{transform:rotate(360deg);}

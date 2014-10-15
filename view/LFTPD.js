@@ -8,20 +8,57 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
     id: 'suprolftpd-view-LFTPD',
     requires:['App.suprolftpd.view.ControlTools'],
     width: 777, height: 477,// initial
-    layout: 'fit',
-    bodyStyle:
-'font-family: "Terminus" monospace; font-size: 10pt;' +
-'background-color: black; color: #00FF00;',
+    layout: 'hbox',
     autoScroll: true,
     initComponent: function initSuproMongoDBComponent(){
-        this.items = [
+    var me = this
+
+        me.items = [
         {
             xtype: 'component',
-            html: l10n.lftpd.noload,
+            html: '<img class="rotate" src="/css/suprolftpd/crossroads.png"></img>',//l10n.lftpd.noload,
+            padding: 7,
+            width: 77,
             itemId:'log'
+        },
+        {
+            xtype: 'tabpanel',
+            height: '100%', border: 0, flex: 1,
+            items:[
+            {
+                closable: false, reorderable: false,
+                xtype: 'grid',
+                iconCls: 'ld-icon-chs',
+                title: l10n.lftpd.channels,
+            store:{
+                fields:['s', 'name', 'obj', 'pingt', 'files', 'kbytes'],
+                data:[
+{ s:'r','name': 'Lisa',  "email":"lisa@simpsons.com",  "phone":"555-111-1224"  },//run arrow lftp executed and runs waiting for commands
+{ s:'f','name': 'Homer', "email":"home@simpsons.com",  "phone":"555-222-1244"  },//feed lftpd with data
+{ s:'e','name': 'Bart',  "email":"bart@simpsons.com",  "phone":"555-222-1234" },// error
+{ s:'b','name': 'Homer', "email":"home@simpsons.com",  "phone":"555-222-1244"  },// blue some progress
+{ s:'k','name': 'Homer', "email":"home@simpsons.com",  "phone":"555-222-1244"  },//black no object linked
+{ s:'g','name': 'Marge', "email":"marge@simpsons.com", "phone":"555-222-1254"  }// green object connected
+                ]
+            },
+            columns:[
+            {
+                dataIndex: 's', text: '<img src="/css/suprolftpd/link_status.png"></img>&#160',
+                width: 29,
+                defaultRenderer: function(value, meta){
+                    meta.tdCls = 'ld-lsts-' + (value || 'r')
+                    return ''
+                }
+            },
+                { text: 'Name',  dataIndex: 'name' },
+                { text: 'Email', dataIndex: 'email', flex: 1 },
+                { text: 'Phone', dataIndex: 'phone' }
+            ]}
+            ]
         }
         ]
-        this.dockedItems = [
+
+        /*this.dockedItems = [
         {
             xtype: 'toolbar',
             dock: 'top',
@@ -65,7 +102,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
             ]
         },
             Ext.create('App.suprolftpd.view.ControlTools')
-        ]
+        ]*/
         this.callParent()
 
         this.on('destroy', function(){

@@ -7,9 +7,13 @@ function suprolftpd(api, cfg){
 var app = api.app, name = 'suprolftpd'
    ,path = require('path')
 
-    cfg.db_path = path.normalize(
-        //  $PWD/app_modules/supromongod/ -> $PWD/data/supromongod/
-        __dirname + '/../..' + (cfg.db_path || '/data/suprolftpd/')
+    if('boolean' == typeof cfg){// simple module enabler by 'true'
+        cfg = (config_default()).suprolftpd// use default config
+    }
+
+    cfg.data_path = path.normalize(
+        //  $PWD/app_modules/suprolftpd/ -> $PWD/data/suprolftpd/
+        __dirname + '/../..' + (cfg.data_path || '/data/suprolftpd/')
     )
     if(cfg.bin){//              bin: '../../bin/lftp.exe'// cygwin
         cfg.bin = path.normalize(__dirname + '/' + cfg.bin)
@@ -44,5 +48,13 @@ var app = api.app, name = 'suprolftpd'
         app.use('/css/' + name + '/css', api.connect.sendFile(
             __dirname + '/' + name + '.css', true)
         )
+    }
+
+    function config_default(){
+        return {
+        suprolftpd:{
+            bin: '../../bin/lftp.exe',// cygwin
+            data_path: ''
+        }}
     }
 }
