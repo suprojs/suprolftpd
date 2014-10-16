@@ -10,6 +10,6 @@
 .rotate{
 transition-duration: 0.8s;
 transition-property: transform;
-overflow:hidden;
+overflow: hidden;
 }
 .rotate:hover{transform:rotate(360deg);}
