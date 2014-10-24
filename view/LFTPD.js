@@ -21,7 +21,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
         // further setup using backend data
         return App.backend.req('/suprolftpd/lib/cnl/get',
         function(err, lftpds){
-        var store, i, records
+        var Model, store, i, records
 
             if(err) return Ext.Msg.alert({
                 buttons: Ext.Msg.OK,
@@ -32,12 +32,13 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
                     //if('yes' == btn)...
                 }
             })
-            store = Ext.create(App.store.LFTPD,{
-                storeId: 'lftpds'
+            store = Ext.create(Ext.data.ArrayStore,{
+                storeId: 'lftpds',
+                model: Model = App.model.LFTPD
             })
             records = [ ]
             for(i in lftpds.data){// open code loadData()
-                records.push(store.createModel(lftpds.data[i] || { id: i }))
+                records.push(new Model(lftpds.data[i] || { id: i }))
             }
             store.loadRecords(records)
             me.add(getItems(store))
@@ -150,14 +151,6 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
 }
 
 Ext.define('App.model.LFTPD',{
-    extend: Ext.data.Model,
+    extend: App.model.Base,
     fields:['id', 'sts', 'txt']
-   ,constructor: function(cfg){
-        App.cfg.modelBase.c9r.call(this, cfg)
-    }
-})
-
-Ext.define('App.store.LFTPD',{
-    extend: Ext.data.ArrayStore,
-    model: App.model.LFTPD
 })
