@@ -5,4 +5,6 @@ l10n.lftpd = { lang: 'en'
     ,refreshLog: 'Refresh log'
     ,noload: '== No log info loaded =='
     ,channels: 'data exchange channels'
+    ,go: 'Launch'
+    ,stop: 'Stop'
 }

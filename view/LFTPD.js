@@ -43,6 +43,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
             }
             store.loadRecords(records)
             me.add(getItems(store))
+            me.down('#tools').bindGrid(me.down('grid'))
 
             return me.setLoading(false)
         })
@@ -66,6 +67,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
                     iconCls: 'ld-icon-chs',
                     title: l10n.lftpd.channels,
                     store:store,
+                    dockedItems:[ Ext.create('App.suprolftpd.view.ControlTools')],
                     columns:[
                     {
                         dataIndex: 'sts', text:'<img src="' + App.backendURL +
@@ -93,52 +95,6 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
             return '<img src="' + App.backendURL +
                    '/css/suprolftpd/' + (value[0] || 'b') + '.png">'
         }
-
-        /*this.dockedItems = [
-        {
-            xtype: 'toolbar',
-            dock: 'top',
-            items:['-',
-            {
-                xtype: 'component',
-                html: l10n.lftpd.status,
-                itemId: 'status'
-            },'->','-',
-            {
-                text: l10n.lftpd.refreshLog
-               ,iconCls: 'sm-rl'
-               ,handler: function(toolbar){
-                    App.backend.req('/suprolftpd/lib/api/log',
-                    function(err, json){
-                        if(!err && 'string' == typeof json){// expecting text
-                            err = toolbar.up('panel')
-                            err.down('#log').update(
-                                '<pre>' + json + '</pre>'
-                            )
-                            err.scrollBy(0, 1 << 22, false)
-                            return
-                        }
-                        // json = { success: false, err: "foo" }
-                        Ext.Msg.show({
-                            title: l10n.errun_title,
-                            buttons: Ext.Msg.OK,
-                            icon: Ext.Msg.ERROR,
-                            msg: l10n.errapi + '<br><b>' + json.err + '</b>'
-                        })
-                    })
-                }
-            },
-            {
-                text: l10n.stsClean
-               ,iconCls: 'sm-cl'
-               ,handler: function(toolbar){
-                    toolbar.up('panel').down('#log').update('')
-                }
-            }
-            ]
-        },
-            Ext.create('App.suprolftpd.view.ControlTools')
-        ]*/
     }
 }
 
@@ -149,4 +105,56 @@ Ext.define('App.model.LFTPD',{
         { name:'sts', persist: false },
         { name:'txt', persist: false }
     ]
+})
+
+//for RAD/hot swap/reloading keep it here before final version
+Ext.define('App.suprolftpd.view.ControlTools',{
+    extend: Ext.toolbar.Toolbar,
+    dock: 'top',
+    itemId: 'tools',
+    bindGrid: null,
+    initComponent: function initSuprolftpdView(){
+    var me = this, go, stop
+
+        me.items = [{
+            text: l10n.lftpd.go
+           ,iconCls: 'ld-icon-go'
+           ,disabled: true
+           ,handler: todo
+        },'-','->','-',{
+            text: l10n.lftpd.stop
+           ,iconCls: 'ld-icon-stop'
+           ,disabled: true
+           ,handler: todo
+        }]
+        me.bindGrid = bindGrid
+        me.callParent()
+
+        go = me.down('button[iconCls=ld-icon-go]')
+        stop = me.down('button[iconCls=ld-icon-stop]')
+        // todo add/edit channel
+        return
+
+        function bindGrid(grid){
+            grid.on('select', select)
+        }
+
+        function select(sm, model){
+            switch(model.data.sts[0]){
+            case 'q': return stop.disable(), go.enable()// quit -> enable 'go'
+            case 'r': return stop.enable(), go.disable()
+            //todo: config existing
+            default : return stop.disable(), go.disable()
+            }
+        }
+
+        function todo(){
+            Ext.Msg.show({
+                title: l10n.errun_title,
+                buttons: Ext.Msg.OK,
+                icon: Ext.Msg.ERROR,
+                msg: 'TODO'
+            })
+        }
+    }
 })

@@ -5,4 +5,6 @@ l10n.lftpd = { lang: 'ru' //!!! локализация используется 
     ,refreshLog: 'Обновить журнал'
     ,noload: '== No log info loaded =ru='// terminus has no cyrillic
     ,channels: 'каналы обмена данными'
+    ,go: 'Запустить'
+    ,stop: 'Остановить'
 }
