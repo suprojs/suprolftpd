@@ -32,8 +32,9 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
                     //if('yes' == btn)...
                 }
             })
-            store = Ext.create(Ext.data.ArrayStore,{
-                storeId: 'lftpds',
+            store = Ext.create(App.store.WES,{
+                storeId: 'lftpd',
+                view: me,
                 model: Model = App.model.LFTPD
             })
             records = [ ]
@@ -152,5 +153,9 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
 
 Ext.define('App.model.LFTPD',{
     extend: App.model.Base,
-    fields:['id', 'sts', 'txt']
+    fields:[
+        { name:'id',  persist: false },
+        { name:'sts', persist: false },
+        { name:'txt', persist: false }
+    ]
 })
