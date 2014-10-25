@@ -51,7 +51,8 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
             return [
             {
                 xtype: 'component',
-                html: '<img class="rotate" src="/css/suprolftpd/crossroads.png"></img>',
+                html:'<img class="rotate" src="' +
+                      App.backendURL + '/css/suprolftpd/crossroads.png"></img>',
                 padding: 7,
                 width: 77,
                 itemId:'log'
@@ -68,7 +69,8 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
                     store:store,
                     columns:[
                     {
-                        dataIndex: 'sts', text: '<img src="/css/suprolftpd/link_status.png"></img>&#160',
+                        dataIndex: 'sts', text:'<img src="' + App.backendURL +
+                               '/css/suprolftpd/link_status.png"></img>&#160',
                         width: 29,
                         defaultRenderer: statusRenderer
                     },
@@ -94,7 +96,8 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
             } else {
                 meta.tdAttr = 'data-qtip="Exists, no config"'//'b'lack
             }
-            return '<img src="/css/suprolftpd/' + (value[0] || 'b') + '.png">'
+            return '<img src="' + App.backendURL +
+                   '/css/suprolftpd/' + (value[0] || 'b') + '.png">'
         }
 
         /*this.dockedItems = [
