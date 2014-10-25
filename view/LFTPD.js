@@ -81,26 +81,20 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
         }
 
         function statusRenderer(value, meta){
-            if(0 == value.indexOf('exit')){
-                meta.tdCls = 'ld-lsts-g'
+            if(0 == value.indexOf('quit')){
                 meta.tdAttr = 'data-qtip="Exit"'
             } else if(0 == value.indexOf('stop')){
-                meta.tdCls = 'ld-lsts-b'
                 meta.tdAttr = 'data-qtip="Configured"'
             } else if(0 == value.indexOf('err')){
-                meta.tdCls = 'ld-lsts-e'
                 meta.tdAttr = 'data-qtip="Error"'
             } else if(0 == value.indexOf('run')){
-                meta.tdCls = 'ld-lsts-r'
                 meta.tdAttr = 'data-qtip="Runs"'
             } else if(0 == value.indexOf('feed')){
-                meta.tdCls = 'ld-lsts-f'
                 meta.tdAttr = 'data-qtip="Feeds/ data activity"'
             } else {
-                meta.tdCls = 'ld-lsts-k'
-                meta.tdAttr = 'data-qtip="Exists, no config"'
+                meta.tdAttr = 'data-qtip="Exists, no config"'//'b'lack
             }
-            return ''
+            return '<img src="/css/suprolftpd/' + (value[0] || 'b') + '.png">'
         }
 
         /*this.dockedItems = [
