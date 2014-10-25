@@ -51,8 +51,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
             return [
             {
                 xtype: 'component',
-                html:'<img class="rotate" src="' +
-                      App.backendURL + '/css/suprolftpd/crossroads.png"></img>',
+                html:'<img class="rotate" src="' + me.wmImg + '"></img>',
                 padding: 7,
                 width: 77,
                 itemId:'log'
@@ -83,18 +82,13 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
         }
 
         function statusRenderer(value, meta){
-            if(0 == value.indexOf('quit')){
-                meta.tdAttr = 'data-qtip="Exit"'
-            } else if(0 == value.indexOf('stop')){
-                meta.tdAttr = 'data-qtip="Configured"'
-            } else if(0 == value.indexOf('err')){
-                meta.tdAttr = 'data-qtip="Error"'
-            } else if(0 == value.indexOf('run')){
-                meta.tdAttr = 'data-qtip="Runs"'
-            } else if(0 == value.indexOf('feed')){
-                meta.tdAttr = 'data-qtip="Feeds/ data activity"'
-            } else {
-                meta.tdAttr = 'data-qtip="Exists, no config"'//'b'lack
+            switch(value){
+            case 'feed': meta.tdAttr = 'data-qtip="Feeds/ data activity"';break
+            case 'quit': meta.tdAttr = 'data-qtip="Quit, no lftp is running"';break
+            case 'stop': meta.tdAttr = 'data-qtip="Configured, no autorun"';break
+            case 'err' : meta.tdAttr = 'data-qtip="Error"';break
+            case 'run' : meta.tdAttr = 'data-qtip="Runs"';break
+            default    : meta.tdAttr = 'data-qtip="Exists, no config"';break//'b'lack
             }
             return '<img src="' + App.backendURL +
                    '/css/suprolftpd/' + (value[0] || 'b') + '.png">'
