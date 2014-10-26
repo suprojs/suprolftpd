@@ -22,8 +22,8 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
         return App.backend.req('/suprolftpd/lib/cnl/get',
         function(err, lftpds){
         var Model, store, i, records
-
-            if(err) return Ext.Msg.alert({
+            // connection or app logic errors
+            if(err || !lftpds.success) return Ext.Msg.alert({
                 buttons: Ext.Msg.OK,
                 icon: Ext.Msg.ERROR,
                 title: 'lftpd load fail',
