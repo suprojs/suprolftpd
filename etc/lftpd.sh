@@ -12,8 +12,9 @@ Scripting of `lftp` under "windows-cygwin" or "linux-gnu" OSes
 env: "$SUPRO_OBJ" is object this instance is runs for; it must be set
 
 ---- exit codes ----
-= 1:  Unexpected Script Error
 = 0:  Normal Exit
+= 1:  Terminated (MS Windows)
+= 76: Unexpected Script Error
 = 77: No config, print help
 '
 exit 77
@@ -36,7 +37,7 @@ Unexpected Script Error! Use /bin/sh -x $0 to trace it.
 "
 set +e
 trap "" 0
-exit 1
+exit 76
 ' 0
 
 _exit(){
