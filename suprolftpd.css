@@ -2,6 +2,7 @@
 .ld-icon-chs{background:url(database_refresh.png) no-repeat transparent;}
 .ld-icon-go{background:url(g.png) no-repeat transparent;}
 .ld-icon-quit{background:url(q.png) no-repeat transparent;}
+.ld-icon-chan{background:url(link_go.png) no-repeat transparent;}
 .rotate{
 transition-duration: 0.8s;
 transition-property: transform;

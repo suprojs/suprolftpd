@@ -76,7 +76,11 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
                         width: 29,
                         defaultRenderer: statusRenderer
                     },
-                        { text: 'id',  dataIndex: 'id', width: 77 },
+                    {
+                        dataIndex: 'id', text: '<img src="' + App.backendURL +
+                                   '/css/suprolftpd/link_go.png"></img>&#160',
+                        width: 77
+                    },
                         { text: 'txt', dataIndex: 'txt', flex: 1 },
                         { text: 'Phone', dataIndex: 'phone' }
                     ]
