@@ -132,6 +132,13 @@ Ext.define('App.suprolftpd.view.ControlTools',{
         function bindGrid(grid){
             SM = grid.getSelectionModel()
             grid.on('select', select)
+            grid.store.on('datachanged', datachanged)
+        }
+
+        function datachanged(){
+        var chan = SM.getSelection()[0]
+        /// apply possibly new tool's state; NOTE: 'quit' is doubled it's OK
+            chan && select(null, chan)
         }
 
         function select(sm, model){
