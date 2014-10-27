@@ -136,6 +136,7 @@ Ext.define('App.suprolftpd.view.ControlTools',{
 
         function select(sm, model){
             switch(model.data.sts[0]){
+            case 's':
             case 'q': return quit.disable(), go.enable()// quit, stop -> 'go'
             case 'r': return quit.enable(), go.disable()// runs -> enable `quit`
             //todo: config existing
