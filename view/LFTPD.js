@@ -43,7 +43,8 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
             }
             store.loadRecords(records)
             me.add(getItems(store))
-            me.down('#tools').bindGrid(me.down('grid'))
+            records = me.down('#tools')
+            records && records.bindGrid(me.down('grid'))
 
             return me.setLoading(false)
         })
