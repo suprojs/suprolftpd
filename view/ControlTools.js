@@ -9,7 +9,9 @@ Ext.define('App.suprolftpd.view.ControlTools',{
     initComponent: function initSuprolftpdView(){
     var me = this, SM, go, quit
 
-        me.items = [{
+        me.items = [
+        { xtype: 'tbspacer', width: 74 },'-',
+        {
             text: l10n.lftpd.go
            ,iconCls: 'ld-icon-go'
            ,disabled: true
@@ -19,7 +21,7 @@ Ext.define('App.suprolftpd.view.ControlTools',{
            ,iconCls: 'ld-icon-quit'
            ,disabled: true
            ,handler: doStartStop
-        }]
+        },'-']
         me.bindGrid = bindGrid
         me.callParent()
 

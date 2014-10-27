@@ -11,7 +11,9 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
     layout: 'hbox',
     autoScroll: true,
     initComponent: function initSuproLFTPDViewComponent(){
-    var me = this
+    var me = this, tabs
+        // common tools for both channels in grid rows and tabs
+        me.dockedItems = [ new App.suprolftpd.view.ControlTools ]
 
         me.callParent()
         me.setLoading(true)
@@ -32,7 +34,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
                     //if('yes' == btn)...
                 }
             })
-            store = Ext.create(App.store.WES,{
+            store = Ext.create(App.store.WES,{// setup data
                 storeId: 'lftpd',
                 view: me,
                 model: Model = App.model.LFTPD
@@ -42,9 +44,11 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
                 records.push(new Model(lftpds.data[i] || { id: i }))
             }
             store.loadRecords(records)
+            // setup UI
             me.add(getItems(store))
-            records = me.down('#tools')
+            records = me.down('#tools')// if allowed bind toolbar to grid
             records && records.bindGrid(me.down('grid'))
+            tabs = me.down('tabpanel')
 
             return me.setLoading(false)
         })
@@ -68,7 +72,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
                     iconCls: 'ld-icon-chs',
                     title: l10n.lftpd.channels,
                     store:store,
-                    dockedItems:[ Ext.create('App.suprolftpd.view.ControlTools')],
+                    listeners:{ itemdblclick: itemdblclick },
                     columns:[
                     {
                         dataIndex: 'sts', text:'<img src="' + App.backendURL +
@@ -93,6 +97,42 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
             meta.tdAttr = 'data-qtip="' + l10n.lftpd.sts[value[0]] + '"'
             return '<img src="' + App.backendURL +
                    '/css/suprolftpd/' + value[0] + '.png">'
+        }
+
+        function itemdblclick(view){
+        var model = view.selModel.getSelection()[0]
+           ,ch = model && model.data.id
+
+            if(!ch) return
+
+            if(!tabs.items.getByKey(ch)){
+                tabs.add(
+                {
+                    xtype: 'panel',
+                    iconCls: 'ld-icon-chan',
+                    title: ch + ': ' + model.data.txt,
+                    itemId: ch,
+                    closable: true,
+                    bodyStyle:
+                    'font-family: "Terminus" monospace; font-size: 10pt;' +
+                    'background-color: black; color: #00FF00;',
+                    autoScroll: true,
+                    listeners:{ activate: selectModel },
+                    items:[
+                    {
+                        xtype: 'component',
+                        html: l10n.lftpd.noload,
+                        itemId:'log'
+                    }
+                    ]
+                })
+            }
+            tabs.setActiveTab(ch)
+            return
+
+            function selectModel(){
+                view.selModel.select(model)
+            }
         }
     }
 }
