@@ -7,4 +7,12 @@ l10n.lftpd = { lang: 'en'
     ,channels: 'data exchange channels'
     ,go: 'Launch'
     ,stop: 'Stop'
+    ,sts:{
+        f:'Feeds files',
+        q:'Quit',
+        s:'Configured, no autorun, stops',
+        e:'Error',
+        r:'Runs',
+        b:'Exists, is not configured'
+    }
 }

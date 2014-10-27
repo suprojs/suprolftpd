@@ -84,16 +84,10 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
         }
 
         function statusRenderer(value, meta){
-            switch(value){
-            case 'feed': meta.tdAttr = 'data-qtip="Feeds/ data activity"';break
-            case 'quit': meta.tdAttr = 'data-qtip="Quit, no lftp is running"';break
-            case 'stop': meta.tdAttr = 'data-qtip="Configured, no autorun"';break
-            case 'err' : meta.tdAttr = 'data-qtip="Error"';break
-            case 'run' : meta.tdAttr = 'data-qtip="Runs"';break
-            default    : meta.tdAttr = 'data-qtip="Exists, no config"';break//'b'lack
-            }
+            value || (value = 'b')
+            meta.tdAttr = 'data-qtip="' + l10n.lftpd.sts[value[0]] + '"'
             return '<img src="' + App.backendURL +
-                   '/css/suprolftpd/' + (value[0] || 'b') + '.png">'
+                   '/css/suprolftpd/' + value[0] + '.png">'
         }
     }
 }
