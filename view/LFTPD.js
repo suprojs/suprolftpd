@@ -104,50 +104,65 @@ Ext.define('App.model.LFTPD',{
 //for RAD/hot swap/reloading keep it here before final version
 Ext.define('App.suprolftpd.view.ControlTools',{
     extend: Ext.toolbar.Toolbar,
-    dock: 'top',
+    dock: 'bottom',
     itemId: 'tools',
     bindGrid: null,
     initComponent: function initSuprolftpdView(){
-    var me = this, go, stop
+    var me = this, SM, go, quit
 
         me.items = [{
             text: l10n.lftpd.go
            ,iconCls: 'ld-icon-go'
            ,disabled: true
-           ,handler: todo
+           ,handler: doStartStop
         },'-','->','-',{
-            text: l10n.lftpd.stop
-           ,iconCls: 'ld-icon-stop'
+            text: l10n.lftpd.quit
+           ,iconCls: 'ld-icon-quit'
            ,disabled: true
-           ,handler: todo
+           ,handler: doStartStop
         }]
         me.bindGrid = bindGrid
         me.callParent()
 
         go = me.down('button[iconCls=ld-icon-go]')
-        stop = me.down('button[iconCls=ld-icon-stop]')
+        quit = me.down('button[iconCls=ld-icon-quit]')
         // todo add/edit channel
         return
 
         function bindGrid(grid){
+            SM = grid.getSelectionModel()
             grid.on('select', select)
         }
 
         function select(sm, model){
             switch(model.data.sts[0]){
-            case 'q': return stop.disable(), go.enable()// quit -> enable 'go'
-            case 'r': return stop.enable(), go.disable()
+            case 'q': return quit.disable(), go.enable()// quit, stop -> 'go'
+            case 'r': return quit.enable(), go.disable()// runs -> enable `quit`
             //todo: config existing
-            default : return stop.disable(), go.disable()
+            default : return quit.disable(), go.disable()
             }
         }
 
-        function todo(){
-            Ext.Msg.show({
-                title: l10n.errun_title,
-                buttons: Ext.Msg.OK,
-                icon: Ext.Msg.ERROR,
-                msg: 'TODO'
+        function doStartStop(btn){
+        var chan = SM.getSelection()[0]
+
+            return chan && App.backend.req(
+                '/suprolftpd/lib/cnl/do',
+                {
+                    id: chan.data.id,
+                    cmd: 'ld-icon-quit' == btn.iconCls ? 'quit' : 'start'
+                },
+            function(err, json){
+                if(!err && json && json.success){
+                    chan.set(json)
+                    return
+                }
+                Ext.Msg.show({
+                    title: l10n.errun_title,
+                    buttons: Ext.Msg.OK,
+                    icon: Ext.Msg.ERROR,
+                    msg: l10n.errun_title
+                })
             })
         }
     }

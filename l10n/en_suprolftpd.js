@@ -6,7 +6,7 @@ l10n.lftpd = { lang: 'en'
     ,noload: '== No log info loaded =='
     ,channels: 'data exchange channels'
     ,go: 'Launch'
-    ,stop: 'Stop'
+    ,quit: 'Stop'
     ,sts:{
         f:'Feeds files',
         q:'Quit',
