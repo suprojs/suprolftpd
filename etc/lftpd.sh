@@ -41,12 +41,12 @@ exit 76
 ' 0
 
 _exit(){
-trap "" 0
-exit "$1"
+    trap "" 0
+    exit "$1"
 }
 
 _err(){
-printf '%b' "[error] $*" >&2
+    printf '%b' "![error] $*" >&2
 #exit
 }
 
@@ -57,11 +57,11 @@ echo "==$SUPRO_OBJ==== ok ==========="
 
 
 _date(){ # ISO date
-date -u '+%Y-%m-%dT%H:%M:%SZ'
+    date -u '+%Y-%m-%dT%H:%M:%SZ'
 }
 
 _con(){
-printf "$@" >&7
+    printf "$@" >&7
 }
 
 exec lftp -e "$LFTP_OPT"
