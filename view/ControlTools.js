@@ -38,7 +38,7 @@ Ext.define('App.suprolftpd.view.ControlTools',{
 
         function datachanged(){
         var chan = SM.getSelection()[0]
-        /// apply possibly new tool's state; NOTE: 'quit' is doubled it's OK
+        /// apply possibly new tool's state
             chan && select(null, chan)
         }
 
