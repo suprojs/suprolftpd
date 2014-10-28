@@ -114,7 +114,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
                     itemId: ch,
                     closable: true,
                     bodyStyle:
-                    'font-family: "Terminus" monospace; font-size: 10pt;' +
+                    'font-family: "Lucida Console" monospace; font-size: 10pt;' +
                     'background-color: black; color: #00FF00;',
                     autoScroll: true,
                     listeners:{ activate: selectModel },
