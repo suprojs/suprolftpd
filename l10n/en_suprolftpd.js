@@ -15,4 +15,6 @@ l10n.lftpd = { lang: 'en'
         r:'Runs',
         b:'Exists, is not configured'
     }
+    // backend
+    ,'~lftp_not_found': 'No lftp was found or wrong `id`'
 }

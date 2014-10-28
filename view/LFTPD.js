@@ -102,11 +102,13 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
         function itemdblclick(view){
         var model = view.selModel.getSelection()[0]
            ,ch = model && model.data.id
+           ,panel
 
             if(!ch) return
 
             if(!tabs.items.getByKey(ch)){
-                tabs.add(
+                model.on('datachanged', changedModel)
+                panel = tabs.add(
                 {
                     xtype: 'panel',
                     iconCls: 'ld-icon-chan',
@@ -117,21 +119,79 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
                     'font-family: "Lucida Console" monospace; font-size: 10pt;' +
                     'background-color: black; color: #00FF00;',
                     autoScroll: true,
-                    listeners:{ activate: selectModel },
+                    listeners:{ activate: selectModel, close: unModel },
+                    dockedItems:[
+                    {
+                        xtype: 'toolbar',
+                        dock: 'top',
+                        items:['-',
+                        {
+                            xtype: 'component',
+                            html: l10n.lftpd.status,
+                            itemId: 'status'
+                        },'->','-',
+                        {
+                            text: l10n.lftpd.refreshLog
+                           ,iconCls: 'sm-rl'
+                           ,handler: refreshLog
+                        },
+                        {
+                            text: l10n.stsClean
+                           ,iconCls: 'sm-cl'
+                           ,handler: cleanLog
+                        }
+                        ]
+                    }],
                     items:[
                     {
                         xtype: 'component',
-                        html: l10n.lftpd.noload,
+                        style: 'white-space: pre-wrap',
+                        html: l10n.lftpd.noload + '\n',
                         itemId:'log'
                     }
                     ]
                 })
             }
             tabs.setActiveTab(ch)
+            refreshLog()
+
             return
+
+            function changedModel(m, updated){
+                if(~updated.indexOf('sts') && tabs.items.getByKey(m.data.id)){
+                    panel.down('#log').getEl().dom.innerHTML += m.data.sts
+                    panel.body.scroll('b', 1 << 22)// 'autoScroll' is here
+                }
+            }
+
+            function unModel(){
+                model.un('datachanged', changedModel)
+            }
 
             function selectModel(){
                 view.selModel.select(model)
+            }
+
+            function refreshLog(toolbar){
+                App.backend.req('/suprolftpd/lib/cnl/log',{ id: ch },
+                function(err, json){
+                    if(!err && 'string' == typeof json){// expecting text
+                        err = toolbar ? toolbar.up('panel') : panel
+                        err.down('#log').update(json)
+                        err.scrollBy(0, 1 << 22, false)
+                        return
+                    }
+                    // json = { success: false, err: "foo" }
+                    Ext.Msg.show({
+                        title: l10n.errun_title,
+                        buttons: Ext.Msg.OK,
+                        icon: Ext.Msg.ERROR,
+                        msg: l10n.errapi + '<br><b>' + l10n.lftpd[json.err] + '</b>'
+                    })
+                })
+            }
+            function cleanLog(){
+                panel.down('#log').update('')
             }
         }
     }
