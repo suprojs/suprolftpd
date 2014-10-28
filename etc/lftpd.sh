@@ -11,9 +11,21 @@ set +e
 trap "" 0
 exit 76
 ' 0
-
+#exec 7>&1 1>>"lftpd.sh.log" 2>&1 && set -x && echo "$*" #debug
 set -e
-#exec 1>>"log" 2>&1 && set -x && echo "$*" #debug
+#
+# STDOUT and STDERR messages must obey one-char status e.g.:
+# `echo "r: runs ok"`
+# `echo "e: errors "`
+#
+_err(){
+    printf '%b' "e: $*" >&2
+}
+
+_exit(){
+    trap "" 0
+    exit "$1"
+}
 
 [ "$SUPRO_OBJ" ] || { echo '
 Scripting of `lftp` under "windows-cygwin" or "linux-gnu" OSes
@@ -39,17 +51,7 @@ set net:reconnect-interval-multiplier 1
 set xfer:disk-full-fatal true
 set xfer:clobber on'
 
-_exit(){
-    trap "" 0
-    exit "$1"
-}
-
-_err(){
-    printf '%b' "![error] $*" >&2
-#exit
-}
-
-echo "==$SUPRO_OBJ==== ok ==========="
+echo "r:==$SUPRO_OBJ==== ok ==========="
 #'open -u vito.supro_1,1234 sftp://86.57.246.51:443/lftp/' //+ auth + ' ' + host
 
 #_err "No Config file $1 is there."
@@ -58,8 +60,18 @@ _date(){ # ISO date
     date -u '+%Y-%m-%dT%H:%M:%SZ'
 }
 
-_con(){
-    printf "$@" >&7
-}
-
-exec lftp -e "$LFTP_OPT"
+#!!! check: EXIT/QUIT/STOP by closing of STDIN
+#exec lftp -e "$LFTP_OPT"
+while read MASTERS_CMD
+do case "$MASTERS_CMD" in
+    'echo_sh')
+        echo 'r: echo_sh'
+    ;;
+    'LFTP_OPT')
+        echo "r: $LFTP_OPT"
+    ;;
+    'quit')
+        _exit 0
+    ;;
+    esac
+done
