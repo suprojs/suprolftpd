@@ -172,13 +172,12 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {
                 view.selModel.select(model)
             }
 
-            function refreshLog(toolbar){
+            function refreshLog(){
                 App.backend.req('/suprolftpd/lib/cnl/log',{ id: ch },
                 function(err, json){
                     if(!err && 'string' == typeof json){// expecting text
-                        err = toolbar ? toolbar.up('panel') : panel
-                        err.down('#log').update(json)
-                        err.scrollBy(0, 1 << 22, false)
+                        panel.down('#log').update(json)
+                        panel.scrollBy(0, 1 << 22, false)
                         return
                     }
                     // json = { success: false, err: "foo" }
