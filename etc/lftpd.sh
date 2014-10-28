@@ -4,6 +4,14 @@
 #`lftp` - Sophisticated file transfer program"
 # https://github.com/olecom/lftpd
 
+trap 'echo "
+Unexpected Script Error! Use /bin/sh -x $0 to trace it.
+"
+set +e
+trap "" 0
+exit 76
+' 0
+
 set -e
 #exec 1>>"log" 2>&1 && set -x && echo "$*" #debug
 
@@ -31,15 +39,6 @@ set net:reconnect-interval-multiplier 1
 set xfer:disk-full-fatal true
 set xfer:clobber on'
 
-
-trap 'echo "
-Unexpected Script Error! Use /bin/sh -x $0 to trace it.
-"
-set +e
-trap "" 0
-exit 76
-' 0
-
 _exit(){
     trap "" 0
     exit "$1"
@@ -54,7 +53,6 @@ echo "==$SUPRO_OBJ==== ok ==========="
 #'open -u vito.supro_1,1234 sftp://86.57.246.51:443/lftp/' //+ auth + ' ' + host
 
 #_err "No Config file $1 is there."
-
 
 _date(){ # ISO date
     date -u '+%Y-%m-%dT%H:%M:%SZ'
