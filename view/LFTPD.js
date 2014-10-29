@@ -1,4 +1,5 @@
-App.cfg['App.suprolftpd.view.LFTPD'] = {
+Ext.ns ('App.suprolftpd.view.LFTPD')    // define ns for class loader
+App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
     __noctl: true,// view-only stuff uses fast init
     extend: App.view.Window,
     title: l10n.lftpd.title,
