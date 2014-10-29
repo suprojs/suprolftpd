@@ -4,7 +4,7 @@
 #`lftp` - Sophisticated file transfer program"
 # https://github.com/olecom/lftpd
 
-trap 'echo "
+trap 'echo "e:
 Unexpected Script Error! Use /bin/sh -x $0 to trace it.
 "
 set +e
@@ -19,7 +19,7 @@ set -e
 # `echo "e: errors "`
 #
 _err(){
-    printf '%b' "e: $*" >&2
+    printf 'e:%b' "$*" >&2
 }
 
 _exit(){
@@ -27,7 +27,7 @@ _exit(){
     exit "$1"
 }
 
-[ "$SUPRO_OBJ" ] || { echo '
+[ "$SUPRO_OBJ" ] || { echo 's:
 Scripting of `lftp` under "windows-cygwin" or "linux-gnu" OSes
 env: "$SUPRO_OBJ" is object this instance is runs for; it must be set
 
@@ -51,17 +51,12 @@ set net:reconnect-interval-multiplier 1
 set xfer:disk-full-fatal true
 set xfer:clobber on'
 
-echo "r:==$SUPRO_OBJ==== ok ==========="
-#'open -u vito.supro_1,1234 sftp://86.57.246.51:443/lftp/' //+ auth + ' ' + host
-
-#_err "No Config file $1 is there."
-
 _date(){ # ISO date
     date -u '+%Y-%m-%dT%H:%M:%SZ'
 }
 
-#!!! check: EXIT/QUIT/STOP by closing of STDIN
 #exec lftp -e "$LFTP_OPT"
+
 while read MASTERS_CMD
 do case "$MASTERS_CMD" in
     'echo_sh')
