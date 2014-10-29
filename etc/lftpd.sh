@@ -68,5 +68,12 @@ do case "$MASTERS_CMD" in
     'quit')
         _exit 0
     ;;
+    *)
+        echo 'r'"`$MASTERS_CMD`" || echo "e: error running:
+====
+$MASTERS_CMD
+===
+"
+    ;;
     esac
 done
