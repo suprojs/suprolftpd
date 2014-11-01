@@ -186,7 +186,8 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                         title: l10n.errun_title,
                         buttons: Ext.Msg.OK,
                         icon: Ext.Msg.ERROR,
-                        msg: l10n.errapi + '<br><b>' + l10n.lftpd[json.err] + '</b>'
+                        msg: l10n.errapi +
+                            '<br><b>' + l10n.lftpd[json.err] + '</b>'
                     })
                 })
             }

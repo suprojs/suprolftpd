@@ -17,4 +17,5 @@ l10n.lftpd = { lang: 'en'
     }
     // backend
     ,'~lftp_not_found': 'No lftp was found or wrong `id`'
+    ,ENOENT: 'File not found'
 }
