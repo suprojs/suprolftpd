@@ -24,7 +24,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
         // further setup using backend data
         return App.backend.req('/suprolftpd/lib/cnl/get',
         function(err, lftpds){
-        var Model, store, i, records
+        var Model, store, i, m, records
             // connection or app logic errors
             if(err || !lftpds.success) return Ext.Msg.alert({
                 buttons: Ext.Msg.OK,
@@ -42,7 +42,9 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
             })
             records = [ ]
             for(i in lftpds.data){// open code loadData()
-                records.push(new Model(lftpds.data[i] || { id: i }))
+                m = new Model(lftpds.data[i] || { id: i })
+                m.on('datachanged', changedModel)
+                records.push(m)
             }
             store.loadRecords(records)
             // setup UI
@@ -100,6 +102,31 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                    '/css/suprolftpd/' + value[0] + '.png">'
         }
 
+        function changedModel(m, updated){
+        var panel, out = true
+
+            if(~updated.indexOf('sts')){
+                if(m.data.prests === m.data.sts[0]){
+                    out = false// no real change -- don't do default highlight
+                    // even with this filter highlighting is being done long
+                    // after all changes are gone; this is because animation
+                    // repetition is checked on element basis, but here row
+                    // is updated by `renderer` thus all amin elements are new
+                }
+                m.data.prests = m.data.sts[0]
+                panel = tabs.items.getByKey(m.data.id)
+                if(panel){
+                    panel.down('#log').getEl().dom.innerHTML += m.data.sts
+                    panel.body.scroll('b', 1 << 22)// 'autoScroll' is here
+                }
+            }
+            return out
+        }
+
+        /*function unModel(){
+            model.un('datachanged', changedModel)
+        }*/
+
         function itemdblclick(view){
         var model = view.selModel.getSelection()[0]
            ,ch = model && model.data.id
@@ -108,7 +135,6 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
             if(!ch) return
 
             if(!tabs.items.getByKey(ch)){
-                model.on('datachanged', changedModel)
                 panel = tabs.add(
                 {
                     xtype: 'panel',
@@ -120,7 +146,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                     'font-family: "Lucida Console" monospace; font-size: 10pt;' +
                     'background-color: black; color: #00FF00;',
                     autoScroll: true,
-                    listeners:{ activate: selectModel, close: unModel },
+                    listeners:{ activate: selectModel },
                     dockedItems:[
                     {
                         xtype: 'toolbar',
@@ -157,17 +183,6 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
             refreshLog()
 
             return
-
-            function changedModel(m, updated){
-                if(~updated.indexOf('sts') && tabs.items.getByKey(m.data.id)){
-                    panel.down('#log').getEl().dom.innerHTML += m.data.sts
-                    panel.body.scroll('b', 1 << 22)// 'autoScroll' is here
-                }
-            }
-
-            function unModel(){
-                model.un('datachanged', changedModel)
-            }
 
             function selectModel(){
                 view.selModel.select(model)
