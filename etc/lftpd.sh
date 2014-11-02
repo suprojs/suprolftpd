@@ -4,6 +4,14 @@
 #`lftp` - Sophisticated file transfer program"
 # https://github.com/olecom/lftpd
 
+# devel:
+: << '.'
+,--[shell@i686-pc-msys mingw32 git]--
+|olecom@U32U-RX007R_OLE /d/supro/git-repo/supro/app_modules/suprolftpd (master)
+|$ SUPRO_OBJ='LOOPBACK' PATH=../../bin ../../bin/sh -c "$PWD/etc/lftpd.sh"
+`-----------
+.
+
 trap 'echo "e:
 Unexpected Script Error! Use /bin/sh -x $0 to trace it.
 "
@@ -32,8 +40,11 @@ Scripting of `lftp` under "windows-cygwin" or "linux-gnu" OSes
 env: "$SUPRO_OBJ" is object this instance is runs for; it must be set
 
 ---- exit codes ----
-= 0:  Normal Exit
-= 1:  Terminated (MS Windows)
+= 0:  Normal Exit / Terminated (MS Windows)
+= 1:  Any error  / ??Terminated (MS Windows)
+= 2:  No TTY error (used in console development)
+
+= 75: Normal slave Exit by master quit command
 = 76: Unexpected Script Error
 = 77: No config, print help
 '
@@ -77,3 +88,5 @@ $MASTERS_CMD
     ;;
     esac
 done
+# this line must be reached only in console (e.g. development)
+tty && _exit 0 || _exit 2
