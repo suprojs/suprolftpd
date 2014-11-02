@@ -180,7 +180,6 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                 })
             }
             tabs.setActiveTab(ch)
-            refreshLog()
 
             return
 
