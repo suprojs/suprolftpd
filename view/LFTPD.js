@@ -103,7 +103,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
         }
 
         function changedModel(m, updated){
-        var panel, out = true
+        var panel, el, out = true
 
             if(~updated.indexOf('sts')){
                 if(m.data.prests === m.data.sts[0]){
@@ -116,8 +116,11 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                 m.data.prests = m.data.sts[0]
                 panel = tabs.items.getByKey(m.data.id)
                 if(panel){
-                    panel.down('#log').getEl().dom.innerHTML += m.data.sts
+                    el = document.createElement('div')
+                    el.innerHTML = m.data.sts
+                    panel.down('#log').getEl().dom.appendChild(el)
                     panel.body.scroll('b', 1 << 22)// 'autoScroll' is here
+                    el = void 0
                 }
             }
             return out
