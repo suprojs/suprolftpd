@@ -40,8 +40,8 @@ Scripting of `lftp` under "windows-cygwin" or "linux-gnu" OSes
 env: "$SUPRO_OBJ" is object this instance is runs for; it must be set
 
 ---- exit codes ----
-= 0:  Normal Exit / Terminated (MS Windows)
-= 1:  Any error  / ??Terminated (MS Windows)
+= 0:  Normal Exit/ Terminated (`command`      in MS Windows)
+= 1:  Any error  / Terminated (`exec command` in MS Windows)
 = 2:  No TTY error (used in console development)
 
 = 75: Normal slave Exit by master quit command
