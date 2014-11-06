@@ -56,19 +56,20 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
             store = Ext.create(App.store.WES,{// setup data
                 storeId: 'lftpd',
                 view: me,
+                informStore: false,// optimize status update / only 'img src' change
                 model: Model = App.model.LFTPD
             })
             records = [ ]
-            for(i in lftpds.data){// open code loadData()
-                m = new Model(lftpds.data[i] || { id: i })
+            for(i in lftpds.data){// open code loadData(); default status for NULL
+                m = new Model(lftpds.data[i] || { id: i, sts: 'bbb|' })
                 m.on('datachanged', changedModel)
                 records.push(m)
             }
             store.loadRecords(records)
             // setup UI
             me.add(getItems(store))
-            records = me.down('#tools')// if allowed bind toolbar to grid
-            records && records.bindGrid(me.down('grid'))
+            m = me.down('#tools')// if allowed bind toolbar to grid
+            m && m.bindGrid(me.down('grid'))
             tabs = me.down('tabpanel')
 
             return setTimeout(function(){
@@ -155,18 +156,31 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
         var panel, el, out = true
 
             if(~updated.indexOf('sts')){
-                if(m.data.prests === m.data.sts[0]){
+                if(mdata.prests === (n = mdata.sts.slice(0, 3))){
                     out = false// no real change -- don't do default highlight
                     // even with this filter highlighting is being done long
                     // after all changes are gone; this is because animation
                     // repetition is checked on element basis, but here row
-                    // is updated by `renderer` thus all amin elements are new
+                    // is updated by `renderer` thus all anim elements are new
+                    // thus here `App.store.WES.informStore` is used to skip
+                    // such cells + row re-rendering
+                } else if(mdata.prests &&
+                         (el = node.dom.querySelectorAll('img[sts]')) &&
+                          el.length)
+                      for(i = 0; i < 4; ++i) if(mdata.prests[i] != n[i])
+                {// optimized re-rendering of cell value, update attrs in nodes
+                    el[i].setAttribute('src',
+                        App.backendURL + '/css/suprolftpd/' + n[i] + '.png'
+                    )// asm:EXTJS4 (architecture specific model of coding)
+                    el[i].parentNode.parentNode.setAttribute('data-qtip',
+                        l10n.lftpd.sts[n[i]]
+                    )
                 }
-                m.data.prests = m.data.sts[0]
-                panel = tabs.items.getByKey(m.data.id)
+                mdata.prests = n
+                panel = tabs.items.getByKey(mdata.id)
                 if(panel){
                     el = document.createElement('div')
-                    el.innerHTML = m.data.sts
+                    el.innerHTML = mdata.sts
                     panel.down('#log').getEl().dom.appendChild(el)
                     panel.body.scroll('b', 1 << 22)// 'autoScroll' is here
                     el = void 0
