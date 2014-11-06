@@ -13,11 +13,13 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
     autoScroll: true,
     initComponent: function initSuproLFTPDViewComponent(){
     var me = this, tabs
-        // common tools for both channels in grid rows and tabs
+        // common tools on bottom for both channels in grid rows and log tabs
         me.dockedItems = [ new App.suprolftpd.view.ControlTools ]
 
         me.callParent()
-        me.setLoading(true)
+        setTimeout(function(){
+            me.setLoading(true)
+        },0)
         me.on('destroy', function(){
            App.backend.req('/suprolftpd/lib/dev')
         })
@@ -53,7 +55,9 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
             records && records.bindGrid(me.down('grid'))
             tabs = me.down('tabpanel')
 
-            return me.setLoading(false)
+            return setTimeout(function(){
+                me.setLoading(false)
+            },0)
         })
 
         function getItems(store){
@@ -75,7 +79,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                     iconCls: 'ld-icon-chs',
                     title: l10n.lftpd.channels,
                     store:store,
-                    listeners:{ itemdblclick: itemdblclick },
+                    listeners:{ itemdblclick: itemdblclick, activate: activate },
                     columns:[
                     {
                         dataIndex: 'sts', text:'<img src="' + App.backendURL +
@@ -195,7 +199,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                 function(err, json){
                     if(!err && 'string' == typeof json){// expecting text
                         panel.down('#log').update(json)
-                        panel.scrollBy(0, 1 << 22, false)
+                        activate(panel)
                         return
                     }
                     // json = { success: false, err: "foo" }
@@ -203,14 +207,17 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                         title: l10n.errun_title,
                         buttons: Ext.Msg.OK,
                         icon: Ext.Msg.ERROR,
-                        msg: l10n.errapi +
-                            '<br><b>' + l10n.lftpd[json.err] + '</b>'
+                        msg: l10n.errapi + '<br><b>' + l10n.lftpd[json.err] + '</b>'
                     })
                 })
             }
             function cleanLog(){
                 panel.down('#log').update('')
             }
+        }
+
+        function activate(panel){
+            panel.scrollBy(0, 1 << 22, false)
         }
     }
 }
