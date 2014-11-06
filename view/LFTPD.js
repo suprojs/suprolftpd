@@ -103,24 +103,27 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                         '/css/suprolftpd/upload.png" width="21" height="21"></img>',
                         tooltip: l10n.lftpd.sts.upload,
                         width: 34,
+                        draggable: false,
                         menuDisabled: true,
-                        defaultRenderer: uploadRenderer
+                        defaultRenderer: render0
                     },
                     {
                         dataIndex: 'sts', text:'<img src="' + App.backendURL +
                         '/css/suprolftpd/download.png" width="21" height="21"></img>',
                         tooltip: l10n.lftpd.sts.download,
                         width: 34,
+                        draggable: false,
                         menuDisabled: true,
-                        defaultRenderer: downloadRenderer
+                        defaultRenderer: render1
                     },
                     {
                         dataIndex: 'sts', text:'<img src="' + App.backendURL +
                         '/css/suprolftpd/feed.png"></img>',
                         tooltip: l10n.lftpd.sts.transport,
                         width: 29,
+                        draggable: false,
                         menuDisabled: true,
-                        defaultRenderer: transportRenderer
+                        defaultRenderer: render2
                     },
                     {
                         dataIndex: 'id', text: '<img src="' + App.backendURL +
@@ -134,26 +137,26 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
             }]
         }
 
-        function uploadRenderer(value, meta){
+        function render0(value, meta){
             meta.tdAttr = 'data-qtip="' + l10n.lftpd.sts[value[0]] + '"'
             return '<img sts src="' + App.backendURL +
                    '/css/suprolftpd/' + value[0] + '.png">'
         }
 
-        function downloadRenderer(value, meta){
+        function render1(value, meta){
             meta.tdAttr = 'data-qtip="' + l10n.lftpd.sts[value[1]] + '"'
             return '<img sts src="' + App.backendURL +
                    '/css/suprolftpd/' + value[1] + '.png">'
         }
 
-        function transportRenderer(value, meta, model){
+        function render2(value, meta, model){
             meta.tdAttr = 'data-qtip="' + l10n.lftpd.sts[value[2]] + '"'
             return '<img sts src="' + App.backendURL +
                    '/css/suprolftpd/' + value[2] + '.png">'
         }
 
-        function changedModel(m, updated){
-        var panel, el, out = true
+        function changedModel(m, updated, node){
+        var panel, el, n, i, mdata = m.data, out = true
 
             if(~updated.indexOf('sts')){
                 if(mdata.prests === (n = mdata.sts.slice(0, 3))){
@@ -162,13 +165,13 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                     // after all changes are gone; this is because animation
                     // repetition is checked on element basis, but here row
                     // is updated by `renderer` thus all anim elements are new
-                    // thus here `App.store.WES.informStore` is used to skip
-                    // such cells + row re-rendering
+
+                    // here for optimized new cell value update via attrs in nodes
+                    // `App.store.WES.informStore` is used to skip normal ExtJS's
+                    // cell + whole row re-rendering
                 } else if(mdata.prests &&
-                         (el = node.dom.querySelectorAll('img[sts]')) &&
-                          el.length)
-                      for(i = 0; i < 4; ++i) if(mdata.prests[i] != n[i])
-                {// optimized re-rendering of cell value, update attrs in nodes
+                   (el = node.dom.querySelectorAll('img[sts]')) && el.length)
+                for(i = 0; i < 4; ++i) if(mdata.prests[i] != n[i]){
                     el[i].setAttribute('src',
                         App.backendURL + '/css/suprolftpd/' + n[i] + '.png'
                     )// asm:EXTJS4 (architecture specific model of coding)
@@ -177,8 +180,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                     )
                 }
                 mdata.prests = n
-                panel = tabs.items.getByKey(mdata.id)
-                if(panel){
+                if((panel = tabs.items.getByKey(mdata.id))){
                     el = document.createElement('div')
                     el.innerHTML = mdata.sts
                     panel.down('#log').getEl().dom.appendChild(el)
@@ -254,7 +256,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
             }
 
             function refreshLog(){
-                App.backend.req('/suprolftpd/lib/cnl/log',{ id: ch },
+                return App.backend.req('/suprolftpd/lib/cnl/log',{ id: ch },
                 function(err, json){
                     if(!err && 'string' == typeof json){// expecting text
                         panel.down('#log').update(json)
