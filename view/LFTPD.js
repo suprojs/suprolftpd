@@ -1,3 +1,19 @@
+/*
+ * lftp channels controlling and status
+ */
+Ext.define('App.model.LFTPD',{
+    extend: App.model.Base,
+    fields:[
+        // `chancfg.sts`: status 3-chars for 3 status info:
+        // [0]-  upload status:'r'un/'q'uit
+        // [1]-download status:'r'un/'q'uit
+        // [2]-transport queue:'g'o /'s'top
+        { name:'sts', persist: false },
+        { name:'txt', persist: false },
+        { name:'id',  persist: false }
+    ]
+})
+
 Ext.ns ('App.suprolftpd.view.LFTPD')    // define ns for class loader
 App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
     __noctl: true,// view-only stuff uses fast init
@@ -83,13 +99,31 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                     columns:[
                     {
                         dataIndex: 'sts', text:'<img src="' + App.backendURL +
-                               '/css/suprolftpd/link_status.png"></img>&#160',
+                        '/css/suprolftpd/upload.png" width="21" height="21"></img>',
+                        tooltip: l10n.lftpd.sts.upload,
+                        width: 34,
+                        menuDisabled: true,
+                        defaultRenderer: uploadRenderer
+                    },
+                    {
+                        dataIndex: 'sts', text:'<img src="' + App.backendURL +
+                        '/css/suprolftpd/download.png" width="21" height="21"></img>',
+                        tooltip: l10n.lftpd.sts.download,
+                        width: 34,
+                        menuDisabled: true,
+                        defaultRenderer: downloadRenderer
+                    },
+                    {
+                        dataIndex: 'sts', text:'<img src="' + App.backendURL +
+                        '/css/suprolftpd/feed.png"></img>',
+                        tooltip: l10n.lftpd.sts.transport,
                         width: 29,
-                        defaultRenderer: statusRenderer
+                        menuDisabled: true,
+                        defaultRenderer: transportRenderer
                     },
                     {
                         dataIndex: 'id', text: '<img src="' + App.backendURL +
-                                   '/css/suprolftpd/link_go.png"></img>&#160',
+                        '/css/suprolftpd/link_go.png"></img>&#160',
                         width: 77
                     },
                         { text: 'txt', dataIndex: 'txt', flex: 1 },
@@ -99,11 +133,22 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
             }]
         }
 
-        function statusRenderer(value, meta){
-            value || (value = 'b')
+        function uploadRenderer(value, meta){
             meta.tdAttr = 'data-qtip="' + l10n.lftpd.sts[value[0]] + '"'
-            return '<img src="' + App.backendURL +
+            return '<img sts src="' + App.backendURL +
                    '/css/suprolftpd/' + value[0] + '.png">'
+        }
+
+        function downloadRenderer(value, meta){
+            meta.tdAttr = 'data-qtip="' + l10n.lftpd.sts[value[1]] + '"'
+            return '<img sts src="' + App.backendURL +
+                   '/css/suprolftpd/' + value[1] + '.png">'
+        }
+
+        function transportRenderer(value, meta, model){
+            meta.tdAttr = 'data-qtip="' + l10n.lftpd.sts[value[2]] + '"'
+            return '<img sts src="' + App.backendURL +
+                   '/css/suprolftpd/' + value[2] + '.png">'
         }
 
         function changedModel(m, updated){
@@ -221,12 +266,3 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
         }
     }
 }
-
-Ext.define('App.model.LFTPD',{
-    extend: App.model.Base,
-    fields:[
-        { name:'id',  persist: false },
-        { name:'sts', persist: false },
-        { name:'txt', persist: false }
-    ]
-})

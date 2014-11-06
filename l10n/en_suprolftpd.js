@@ -8,11 +8,15 @@ l10n.lftpd = { lang: 'en'
     ,go: 'Launch'
     ,quit: 'Stop'
     ,sts:{
-        f:'Feeds files',
+        transport:'trasport',
+        download:'lftp download',
+        upload:'lftp upload',
+        r:'Runs',
         q:'Quit',
+        f:'Feeds files',
+        g:'Go'
         s:'Configured, no autorun, stops',
         e:'Error',
-        r:'Runs',
         b:'Exists, is not configured'
     }
     // backend
