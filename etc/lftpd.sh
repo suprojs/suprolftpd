@@ -4,13 +4,11 @@
 #`lftp` - Sophisticated file transfer program"
 # https://github.com/olecom/lftpd
 
-# devel:
-: << '.'
-,--[shell@i686-pc-msys mingw32 git]--
-|olecom@U32U-RX007R_OLE /d/supro/git-repo/supro/app_modules/suprolftpd (master)
-|$ SUPRO_OBJ='LOOPBACK' PATH=../../bin ../../bin/sh -c "$PWD/etc/lftpd.sh"
-`-----------
-.
+# devel command:
+# ,--[shell@i686-pc-msys mingw32 git]--
+# |olecom@U32U-RX007R_OLE /d/supro/git-repo/supro/app_modules/suprolftpd (master)
+# |$ SUPRO_OBJ='LOOPBACK' PATH=../../bin ../../bin/sh -c "$PWD/etc/lftpd.sh"
+# `-----------
 
 trap 'echo "e:
 Unexpected Script Error! Use /bin/sh -x $0 to trace it.
@@ -44,7 +42,8 @@ env: "$SUPRO_OBJ" is object this instance is runs for; it must be set
 = 1:  Any error  / Terminated (`exec command` in MS Windows)
 = 2:  No TTY error (used in console development)
 
-= 75: Normal slave Exit by master quit command
+= 74: upload:   Normal slave Exit by master quit command
+= 75: download: Normal slave Exit by master quit command
 = 76: Unexpected Script Error
 = 77: No config, print help
 '
