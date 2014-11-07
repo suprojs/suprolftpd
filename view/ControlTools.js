@@ -36,7 +36,6 @@ Ext.define('App.suprolftpd.view.ControlTools',{
             style: 'overflow: hidden;',
             flex: 1
         },'-',
-        '<img src="' + App.backendURL + '/css/suprolftpd/feed.png"></img>',
         {
             text: l10n.lftpd.go
            ,iconCls: 'ld-icon-go'// stop

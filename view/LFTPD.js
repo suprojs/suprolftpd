@@ -118,7 +118,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                     },
                     {
                         dataIndex: 'sts', text:'<img src="' + App.backendURL +
-                        '/css/suprolftpd/feed.png"></img>',
+                        '/css/suprolftpd/transmit.png"></img>',
                         tooltip: l10n.lftpd.sts.transport,
                         width: 29,
                         draggable: false,
@@ -127,7 +127,8 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                     },
                     {
                         dataIndex: 'id', text: '<img src="' + App.backendURL +
-                        '/css/suprolftpd/link_go.png"></img>&#160',
+                        '/css/suprolftpd/page_link.png"></img>',
+                        tooltip: l10n.lftpd.chaname,
                         width: 77
                     },
                         { text: 'txt', dataIndex: 'txt', flex: 1 },
