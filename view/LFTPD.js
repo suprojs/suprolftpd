@@ -182,7 +182,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                 mdata.prests = n
                 if((panel = tabs.items.getByKey(mdata.id))){
                     el = document.createElement('div')
-                    el.innerHTML = mdata.sts
+                    el.innerHTML = mdata.sts.slice(4)// no status chars
                     panel.down('#log').getEl().dom.appendChild(el)
                     panel.body.scroll('b', 1 << 22)// 'autoScroll' is here
                     el = void 0
