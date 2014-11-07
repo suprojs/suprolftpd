@@ -27,7 +27,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
     width: 777, height: 477,// initial
     layout: 'hbox',
     autoScroll: true,
-    initComponent: function initSuproLFTPDViewComponent(){
+    initComponent: function initLFTPD(){
     var me = this, tabs
         // common tools on bottom for both channels in grid rows and log tabs
         me.dockedItems = [ new App.suprolftpd.view.ControlTools ]
@@ -190,10 +190,6 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
             }
             return out
         }
-
-        /*function unModel(){
-            model.un('datachanged', changedModel)
-        }*/
 
         function itemdblclick(view){
         var model = view.selModel.getSelection()[0]

@@ -5,8 +5,11 @@ l10n.lftpd = { lang: 'en'
     ,refreshLog: 'Refresh log'
     ,noload: '== No log info loaded =='
     ,channels: 'data exchange channels'
-    ,go: 'Launch'
-    ,quit: 'Stop'
+    ,toolHelp: 'upload and download channels are independent but run and quit togather'
+    ,go: 'Start: info exchange'
+    ,stop: 'Finish: info exchange'
+    ,run:  'Run <b>lftp</b>'
+    ,quit: 'Quit <b>lftp</b>'
     ,sts:{
         transport:'trasport',
         download:'lftp download',
