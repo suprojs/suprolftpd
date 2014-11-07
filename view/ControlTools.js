@@ -80,6 +80,7 @@ Ext.define('App.suprolftpd.view.ControlTools',{
             } else {
                 trans.setIconCls('ld-icon-stop').setText(l10n.lftpd.stop)
             }
+            udload.enable(), trans.enable()
         }
         // common button handler for a channel; returned status is set into model
         function doLFTP(btn){
