@@ -89,7 +89,7 @@ Ext.define('App.suprolftpd.view.ControlTools',{
                 '/suprolftpd/lib/cnl/do',
                 {
                     id: chan.data.id,
-                    cmd: 'ld-icon-quit' == btn.iconCls ? 'quit' : 'start'
+                    cmd: btn.iconCls.slice(8)// 'ld-icon-run,quit,go,stop'
                 },
             function(err, json){
                 if(!err && json && json.success){
