@@ -140,13 +140,15 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
 
         function render0(value, meta){
             meta.tdAttr = 'data-qtip="' + l10n.lftpd.sts[value[0]] + '"'
-            return '<img sts src="' + App.backendURL +
+            return '<img sts style="transform:rotate(-90deg);-webkit-transform:rotate(-90deg);" src="' +
+                    App.backendURL +
                    '/css/suprolftpd/' + value[0] + '.png">'
         }
 
         function render1(value, meta){
             meta.tdAttr = 'data-qtip="' + l10n.lftpd.sts[value[1]] + '"'
-            return '<img sts src="' + App.backendURL +
+            return '<img sts style="transform:rotate(90deg);-webkit-transform:rotate(90deg);"  src="' +
+                    App.backendURL +
                    '/css/suprolftpd/' + value[1] + '.png">'
         }
 
