@@ -160,6 +160,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
         var panel, el, n, i, mdata = m.data, out = true
 
             if(~updated.indexOf('sts')){
+                mdata.prests || (mdata.prests = 'bbb')// define pre status
                 if(mdata.prests === (n = mdata.sts.slice(0, 3))){
                     out = false// no real change -- don't do default highlight
                     // even with this filter highlighting is being done long
@@ -170,8 +171,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                     // here for optimized new cell value update via attrs in nodes
                     // `App.store.WES.informStore` is used to skip normal ExtJS's
                     // cell + whole row re-rendering
-                } else if(mdata.prests &&
-                   (el = node.dom.querySelectorAll('img[sts]')) && el.length)
+                } else if((el = node.dom.querySelectorAll('img[sts]')) && el.length)
                 for(i = 0; i < 4; ++i) if(mdata.prests[i] != n[i]){
                     el[i].setAttribute('src',
                         App.backendURL + '/css/suprolftpd/' + n[i] + '.png'
