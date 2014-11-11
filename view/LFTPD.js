@@ -140,16 +140,18 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
 
         function render0(value, meta){
             meta.tdAttr = 'data-qtip="' + l10n.lftpd.sts[value[0]] + '"'
-            return '<img sts style="transform:rotate(-90deg);-webkit-transform:rotate(-90deg);" src="' +
+            return '<img sts src="' +
                     App.backendURL +
-                   '/css/suprolftpd/' + value[0] + '.png">'
+                   '/css/suprolftpd/' + value[0] + ('r' == value[0] ? 'u' : '') +
+                   '.png">'
         }
 
         function render1(value, meta){
             meta.tdAttr = 'data-qtip="' + l10n.lftpd.sts[value[1]] + '"'
-            return '<img sts style="transform:rotate(90deg);-webkit-transform:rotate(90deg);"  src="' +
+            return '<img sts src="' +
                     App.backendURL +
-                   '/css/suprolftpd/' + value[1] + '.png">'
+                   '/css/suprolftpd/' + value[1] + ('r' == value[1] ? 'd' : '') +
+                   '.png">'
         }
 
         function render2(value, meta, model){
@@ -176,7 +178,8 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                 } else if((el = node.dom.querySelectorAll('img[sts]')) && el.length)
                 for(i = 0; i < 4; ++i) if(mdata.prests[i] != n[i]){
                     el[i].setAttribute('src',
-                        App.backendURL + '/css/suprolftpd/' + n[i] + '.png'
+                        App.backendURL + '/css/suprolftpd/' + n[i] +
+                        ('r' == n[i] ? 0 == i ? 'u' : 'd' : '') + '.png'
                     )// asm:EXTJS4 (architecture specific model of coding)
                     el[i].parentNode.parentNode.setAttribute('data-qtip',
                         l10n.lftpd.sts[n[i]]
