@@ -69,7 +69,7 @@ echo "__
 #
 # run `lftp` to listen master's commands
 # for upload or download channel
-# tar --totals -z gzip; find -size -cfg.max_file_size -type f -print
+# TODO: tar --totals -z gzip; find -size -cfg.max_file_size -type f -print
 # find -type f -size +50000k; for big files "net:limit-rate (bytes per second)"
 lftp -e "$LFTP_OPT" && {
     E=$?
