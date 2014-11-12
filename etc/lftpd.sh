@@ -1,8 +1,9 @@
 #!/bin/sh
 # uses work from v007 2013-04-19 of
-#"The transportation daemon based on
-#`lftp` - Sophisticated file transfer program"
+#"The transportation daemon based on `lftp` - Sophisticated file transfer program"
 # https://github.com/olecom/lftpd
+#
+# Error messages on STDOUT must have prefix 'ERR'
 
 # devel command:
 # ,--[shell@i686-pc-msys mingw32 git]--
@@ -12,17 +13,13 @@
 
 trap 'echo "
 Unexpected Script Error! Use /bin/sh -x $0 to trace it.
-"
+" >&2
 set +e
 trap "" 0
 exit 76
 ' 0
 #exec 7>&1 1>>"lftpd.sh.log" 2>&1 && set -x && echo "$*" #debug
 set -e
-
-_err(){
-    printf '%b' "$*" >&2
-}
 
 _exit(){
     trap "" 0
@@ -42,7 +39,7 @@ env: "$SUPRO_OBJ" is object this instance is runs for; it must be set
 = 75: download: Normal slave Exit by master quit command
 = 76: Unexpected Script Error
 = 77: No config, print help
-'
+' >&2
 exit 77
 }
 
