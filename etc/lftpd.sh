@@ -49,20 +49,37 @@ exit 77
 #
 LFTP_OPT='
 set cmd:interactive false
-set net:timeout 4
+set cmd:move-background false
 set cmd:long-running 4
 set net:max-retries 4
+set net:timeout 4
 set net:reconnect-interval-base 4
 set net:reconnect-interval-multiplier 1
 set xfer:disk-full-fatal true
 set xfer:clobber on
 '
 #debug 777 -o debug.txt
-
-_date(){ # ISO date
-    date -u '+%Y-%m-%dT%H:%M:%SZ'
+# NOTE: this is very first message to master
+#       after it `open && cd` commands are issued for `lftp` setup
+echo "__
+,- lftpd.sh --
+= OBJECT: $SUPRO_OBJ
+= PWD: $PWD
+"
+#
+# run `lftp` to listen master's commands
+# for upload or download channel
+# tar --totals -z gzip; find -size -cfg.max_file_size -type f -print
+# find -type f -size +50000k; for big files "net:limit-rate (bytes per second)"
+lftp -e "$LFTP_OPT" && {
+    E=$?
+    echo "exit code $E"
+} || {
+    E=$?
+    echo "error code $E" >&2
 }
 
+_exit "$E"
 
 # this line must be reached only in console (e.g. development)
 tty && _exit 0 || _exit 2
