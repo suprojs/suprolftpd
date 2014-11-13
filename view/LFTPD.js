@@ -97,7 +97,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                     iconCls: 'ld-icon-chs',
                     title: l10n.lftpd.channels,
                     store:store,
-                    listeners:{ itemdblclick: itemdblclick, activate: activate },
+                    listeners:{ itemdblclick: itemdblclick },
                     columns:[
                     {
                         dataIndex: 'sts', text:'<img src="' + App.backendURL +
@@ -256,6 +256,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
 
             function selectModel(){
                 view.selModel.select(model)
+                panel.body.scroll('b', 1 << 22)// 'autoScroll' is here
             }
 
             function refreshLog(){
@@ -263,7 +264,8 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                 function(err, json){
                     if(!err && 'string' == typeof json){// expecting text
                         panel.down('#log').update(json)
-                        activate(panel)
+                        panel.body.scroll('b', 1 << 22)// 'autoScroll' is here
+
                         return
                     }
                     // json = { success: false, err: "foo" }
@@ -279,10 +281,6 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                 view.selModel.getSelection()[0].data.sts = ''// show new info
                 panel.down('#log').update('')
             }
-        }
-
-        function activate(panel){
-            panel.scrollBy(0, 1 << 22, false)
         }
     }
 }
