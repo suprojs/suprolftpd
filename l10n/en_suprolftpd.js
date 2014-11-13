@@ -11,6 +11,7 @@ l10n.lftpd = { lang: 'en'
     ,stop: 'Finish: info exchange'
     ,run:  'Run <b>lftp</b>'
     ,quit: 'Quit <b>lftp</b>'
+    ,test: 'Test'
     ,sts:{
         transport:'trasport',
         download:'lftp download',
@@ -25,5 +26,6 @@ l10n.lftpd = { lang: 'en'
     }
     // backend
     ,'~lftp_not_found': 'No lftp was found or wrong `id`'
+    ,zzzz: 'warning: Remote peer (object) does not download data!'
     ,ENOENT: 'File not found'
 }

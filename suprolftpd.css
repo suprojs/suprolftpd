@@ -5,6 +5,7 @@
 .ld-icon-go{background:url(g.png) no-repeat transparent;}
 .ld-icon-stop{background:url(s.png) no-repeat transparent;}
 .ld-icon-chan{background:url(page_link.png) no-repeat transparent;}
+.ld-icon-test{background:url(spellcheck.png) no-repeat transparent;}
 .rotate{
 transition-duration: 0.8s;
 transition-property: transform;

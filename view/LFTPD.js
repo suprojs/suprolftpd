@@ -188,8 +188,12 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                 }
                 mdata.prests = n
                 if((panel = tabs.items.getByKey(mdata.id))){
+                    n = mdata.sts.slice(4)// no status chars
+                    if('"up" zzzz' == n){
+                        n = l10n.lftpd.zzzz
+                    }
                     el = document.createElement('div')
-                    el.innerHTML = mdata.sts.slice(4)// no status chars
+                    el.innerHTML = n
                     panel.down('#log').getEl().dom.appendChild(el)
                     panel.body.scroll('b', 1 << 22)// 'autoScroll' is here
                     el = void 0
@@ -224,10 +228,19 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                         dock: 'top',
                         items:['-',
                         {
-                            xtype: 'component',
-                            html: l10n.lftpd.status,
-                            itemId: 'status'
-                        },'->','-',
+                            text: l10n.lftpd.test + ' <b>api.lftp.send()</b>'
+                           ,itemId: 'api.lftp.send'
+                           ,iconCls:'ld-icon-test'
+                           ,handler: testAPI
+
+                        },'-',
+                        {
+                            text: l10n.lftpd.test + ' <b>api.lftp.on()</b>'
+                           ,itemId: 'api.lftp.on'
+                           ,iconCls:'ld-icon-test'
+                           ,handler: testAPI
+
+                        },'-','->','-',
                         {
                             text: l10n.lftpd.refreshLog
                            ,iconCls: 'sm-rl'
@@ -281,6 +294,10 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                 view.selModel.getSelection()[0].data.sts = ''// show new info
                 panel.down('#log').update('')
             }
+        }
+
+        function testAPI(btn){
+            App.backend.req('/suprolftpd/lib/cnl/do',{ cmd:btn.itemId })
         }
     }
 }
