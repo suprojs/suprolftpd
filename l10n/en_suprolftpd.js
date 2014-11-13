@@ -19,7 +19,7 @@ l10n.lftpd = { lang: 'en'
         r:'Runs',
         q:'Quit',
         f:'Feeds files',
-        g:'Go'
+        g:'Go',
         s:'Configured, no autorun, stops',
         e:'Error',
         b:'Exists, is not configured'
