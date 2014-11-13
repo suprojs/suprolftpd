@@ -27,6 +27,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
     width: 777, height: 477,// initial
     layout: 'hbox',
     autoScroll: true,
+    maximized: true,
     initComponent: function initLFTPD(){
     var me = this, tabs
         // common tools on bottom for both channels in grid rows and log tabs
@@ -275,6 +276,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                 })
             }
             function cleanLog(){
+                view.selModel.getSelection()[0].data.sts = ''// show new info
                 panel.down('#log').update('')
             }
         }
