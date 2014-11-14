@@ -81,9 +81,10 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
         function getItems(store){
             return [
             {
-                xtype: 'component',
-                html:'<img class="rotate" src="' + me.wmImg + '"></img>',
-                padding: 7,
+                xtype:'component',
+                html: '<a href="/css/suprolftpd/supronet.png" target="_blank">'+
+                      '<img class="rotate" src="' + me.wmImg + '"></img></a>',
+                padding:7,
                 width: 77,
                 itemId:'log'
             },
