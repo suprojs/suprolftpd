@@ -29,3 +29,6 @@ l10n.lftpd = { lang: 'en'
     ,zzzz: 'warning: Remote peer (object) does not download data!'
     ,ENOENT: 'File not found'
 }
+
+l10n['~lftp:no_module_or_handler_for_file'] = "lftp: no module or handler for file"
+l10n['~lftp:no_object_for_file'] = "~lftp: no object for file"
