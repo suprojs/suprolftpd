@@ -230,18 +230,18 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                         dock: 'top',
                         items:['-',
                         {
-                            text: l10n.lftpd.test + ' <b>api.lftp.send()</b>'
+                            text: l10n.lftpd.testBegin + ' <b>api.lftp.send()</b>'
                            ,itemId: 'api.lftp.send'
                            ,iconCls:'ld-icon-test'
                            ,handler: testAPI
-
+                           ,tooltip: l10n.lftpd.testSend
                         },'-',
                         {
-                            text: l10n.lftpd.test + ' <b>api.lftp.on()</b>'
+                            text: '<b>api.lftp.on()</b> ' + l10n.lftpd.testEnd
                            ,itemId: 'api.lftp.on'
                            ,iconCls:'ld-icon-test'
                            ,handler: testAPI
-
+                           ,tooltip: l10n.lftpd.testOn
                         },'-','->','-',
                         {
                             text: l10n.lftpd.refreshLog
@@ -296,10 +296,13 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                 view.selModel.getSelection()[0].data.sts = ''// show new info
                 panel.down('#log').update('')
             }
-        }
+            function testAPI(btn){
+            var model = view.selModel.getSelection()[0]
 
-        function testAPI(btn){
-            App.backend.req('/suprolftpd/lib/cnl/do',{ cmd:btn.itemId })
+                App.backend.req('/suprolftpd/lib/cnl/do',{
+                    cmd:btn.itemId, id: model.data.id
+                })
+            }
         }
     }
 }

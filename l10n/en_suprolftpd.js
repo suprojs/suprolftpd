@@ -11,7 +11,10 @@ l10n.lftpd = { lang: 'en'
     ,stop: 'Finish: info exchange'
     ,run:  'Run <b>lftp</b>'
     ,quit: 'Quit <b>lftp</b>'
-    ,test: 'Test'
+    ,testBegin: 'Test begin'
+    ,testEnd: 'end test'
+    ,testSend: 'send message; result <b>"up" OK</b>'
+    ,testOn: 'after <b>send+"up" OK</b> peer has file(s); get them'
     ,sts:{
         transport:'trasport',
         download:'lftp download',
