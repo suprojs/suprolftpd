@@ -162,7 +162,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                    '/css/suprolftpd/' + value[2] + '.png">'
         }
 
-        function changedModel(m, updated, node){
+        function changedModel(m, updated, node){// `node` may be undefined
         var panel, el, n, i, mdata = m.data, out = true
 
             if(~updated.indexOf('sts')){
@@ -177,7 +177,8 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                     // here for optimized new cell value update via attrs in nodes
                     // `App.store.WES.informStore` is used to skip normal ExtJS's
                     // cell + whole row re-rendering
-                } else if((el = node.dom.querySelectorAll('img[sts]')) && el.length)
+                } else if(node && (el = node.dom.querySelectorAll('img[sts]'))
+                               && el.length)
                 for(i = 0; i < 4; ++i) if(mdata.prests[i] != n[i]){
                     el[i].setAttribute('src',
                         App.backendURL + '/css/suprolftpd/' + n[i] +
