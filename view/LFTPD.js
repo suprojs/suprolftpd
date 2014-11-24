@@ -191,7 +191,7 @@ App.cfg['App.suprolftpd.view.LFTPD'] = {// fast init
                 mdata.prests = n
                 if((panel = tabs.items.getByKey(mdata.id))){
                     n = mdata.sts.slice(4)// no status chars
-                    if('"up" zzzz' == n){
+                    if('zzzz' == n){
                         n = l10n.lftpd.zzzz
                     }
                     el = document.createElement('div')
